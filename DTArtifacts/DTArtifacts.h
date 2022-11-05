@@ -1,17 +1,17 @@
 #pragma once
 
+#include "pch.h"
+
+#include "Connection.h"
+#include "PacketHandler.h"
+#include "EventHandler.h"
+
 #define WIN32_LEAN_AND_MEAN
 
 namespace dreamtea
 {
 	extern const char* DREAMTEA_IP;
 	extern const char* DTA_PORT;
-
-	class EventHandler
-	{
-	public:
-		virtual void on_right_click();
-	};
 
 	void connect(const char* ip, const char* port);
 

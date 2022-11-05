@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "DTArtifacts.h"
-#include "Connection.h"
-#include "PacketHandler.h"
 
 #define BUFFER_LENGTH 1024
 
@@ -60,10 +58,5 @@ namespace dreamtea
 				std::cout << "Recv failed: " << WSAGetLastError() << std::endl;
 			}
 		} while (result > 0);
-	}
-
-	void EventHandler::on_right_click()
-	{
-		// EMPTY
 	}
 }

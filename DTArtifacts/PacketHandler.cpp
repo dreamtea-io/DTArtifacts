@@ -21,4 +21,14 @@ namespace dreamtea
 
 		//IGNORE
 	}
+
+	void PacketHandler::handle(int pk, nlohmann::json content)
+	{
+		switch (pk)
+		{
+		case 0:
+
+			break;
+		}
+	}
 }

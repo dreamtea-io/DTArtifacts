@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pch.h"
+
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
@@ -9,7 +11,7 @@ namespace dreamtea
 	class Connection
 	{
 	private:
-		SOCKET client;
+		SOCKET client = INVALID_SOCKET;
 
 		const char* ip;
 		const char* port;

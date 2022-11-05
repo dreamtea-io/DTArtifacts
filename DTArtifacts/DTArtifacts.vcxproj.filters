@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{04f22fa8-01a8-4919-8e6d-39931ffca7ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Event">
+      <UniqueIdentifier>{7f5f5575-9970-4fa7-8007-04fd9d2bb7d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event">
+      <UniqueIdentifier>{cfc1476e-668b-4957-a406-27d4b25b8bd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -36,6 +42,12 @@
     <ClInclude Include="Connection.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DTArtifacts.cpp">
@@ -49,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Connection.cpp">
       <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
