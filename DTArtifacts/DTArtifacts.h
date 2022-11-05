@@ -2,10 +2,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 
-#pragma comment (lib, "Ws2_32.lib")
-#pragma comment (lib, "Mswsock.lib")
-#pragma comment (lib, "AdvApi32.lib")
-
 namespace dreamtea
 {
 	extern const char* DREAMTEA_IP;
@@ -21,7 +17,7 @@ namespace dreamtea
 
 	void register_artifact(EventHandler* handler);
 
-	void send_data(const char* data);
+	void send_packet();
 
 	void loop();
 }

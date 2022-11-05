@@ -8,7 +8,5 @@ int main()
 {
     connect("localhost", DTA_PORT);
 
-    send_data("something");
-
     loop();
 }
