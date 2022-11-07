@@ -12,6 +12,7 @@ namespace dreamtea
 	{
 	private:
 		SOCKET client = INVALID_SOCKET;
+		bool isConnected = false;
 
 		const char* ip;
 		const char* port;
@@ -19,6 +20,8 @@ namespace dreamtea
 		Connection(const char* ip, const char* port);
 
 		void try_connect();
+
+		bool is_connected();
 
 		void send_string(const char* data);
 

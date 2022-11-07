@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DTArtifacts.h"
 
-#define BUFFER_LENGTH 1024
+#define BUFFER_LENGTH 2048
 
 namespace dreamtea
 {
@@ -10,28 +10,48 @@ namespace dreamtea
 
 	Connection* connection = NULL;
 
-	PacketHandler* packet_handler = new PacketHandler();
+	PacketHandler* packet_handler = NULL;
 	EventHandler* event_handler = NULL;
 
 	void connect(const char* ip = DREAMTEA_IP, const char* port = DTA_PORT)
 	{
+		packet_handler = new PacketHandler();
+
 		connection = new Connection(ip, port);
 		connection->try_connect();
 	}
 
 	void disconnect()
 	{
+		delete packet_handler;
+		delete event_handler;
+
 		connection->disconnect();
 	}
 
-	void register_artifact(EventHandler* handler)
+	void register_artifact(unsigned short id, EventHandler* handler)
 	{
+		if (!connection->is_connected())
+		{
+			std::cout << "You are not connected to the Spigot server!" << std::endl;
+			return;
+		}
+
 		event_handler = handler;
+
+		RegisterArtifactPacket pk;
+		pk.artifactId = id;
+		send_packet(pk);
 	}
 
-	void send_packet()
+	void send_packet(ClientPacket &pk)
 	{
+		pk.encode();
+		const char* payload = pk.payload.dump().c_str();
+		
+		connection->send_string(payload);
 
+		delete[] payload;
 	}
 
 	void loop()
@@ -47,7 +67,7 @@ namespace dreamtea
 			{
 				nlohmann::json json_result = result;
 
-				packet_handler->read(json_result);
+				packet_handler->read(event_handler, json_result);
 			}
 			else if (result == 0)
 			{

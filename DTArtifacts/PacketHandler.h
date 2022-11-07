@@ -9,8 +9,6 @@ namespace dreamtea
 	class PacketHandler
 	{
 	public:
-		void read(nlohmann::json &data);
-
-		void handle(int pk, nlohmann::json content);
+		void read(EventHandler* event_handler, nlohmann::json &data);
 	};
 }

@@ -60,6 +60,13 @@ namespace dreamtea
 			WSACleanup();
 			return;
 		}
+
+		this->isConnected = true;
+	}
+
+	bool Connection::is_connected()
+	{
+		return this->isConnected;
 	}
 
 	void Connection::send_string(const char* data)
@@ -78,6 +85,7 @@ namespace dreamtea
 
 	void Connection::disconnect()
 	{
+		this->isConnected = false;
 		closesocket(this->client);
 		WSACleanup();
 	}

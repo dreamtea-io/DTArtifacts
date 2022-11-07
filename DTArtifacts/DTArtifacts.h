@@ -15,9 +15,9 @@ namespace dreamtea
 
 	void connect(const char* ip, const char* port);
 
-	void register_artifact(EventHandler* handler);
+	void register_artifact(unsigned short id, EventHandler* handler);
 
-	void send_packet();
+	void send_packet(ClientPacket &pk);
 
 	void loop();
 }
