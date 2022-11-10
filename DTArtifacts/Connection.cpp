@@ -69,9 +69,9 @@ namespace dreamtea
 		return this->isConnected;
 	}
 
-	void Connection::send_string(const char* data)
+	void Connection::send_string(std::string data)
 	{
-		int result = send(this->client, data, (int) strlen(data), 0);
+		int result = send(this->client, data.c_str(), (int)data.size(), 0);
 		if (result == SOCKET_ERROR)
 		{
 			disconnect();
@@ -85,6 +85,7 @@ namespace dreamtea
 
 	void Connection::disconnect()
 	{
+		std::cout << "DISCONNECTED" << std::endl;
 		this->isConnected = false;
 		closesocket(this->client);
 		WSACleanup();

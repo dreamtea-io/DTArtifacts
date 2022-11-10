@@ -6,6 +6,13 @@
 
 namespace dreamtea
 {
+	interface Protocol
+	{
+		static const unsigned short REGISTER_ARTIFACT = 0;
+		static const unsigned short SEND_MESSAGE = 1;
+		static const unsigned short RIGHT_CLICK_EVENT = 2;
+	};
+
 	class Packet
 	{
 	public:
@@ -18,7 +25,11 @@ namespace dreamtea
 			SERVER = 2
 		};
 
+		virtual unsigned short get_id() { return -1; }
+
 		TYPE get_type();
+
+		static Packet make_empty_one(unsigned short id);
 	};
 
 	class ClientPacket : public Packet
@@ -44,6 +55,8 @@ namespace dreamtea
 	class RegisterArtifactPacket : public ClientPacket
 	{
 	public:
+		unsigned short get_id() { return Protocol::REGISTER_ARTIFACT; }
+
 		unsigned short artifactId;
 
 		void encode();
@@ -52,6 +65,8 @@ namespace dreamtea
 	class SendMessagePacket : public ClientPacket
 	{
 	public:
+		unsigned short get_id() { return Protocol::SEND_MESSAGE; }
+
 		unsigned int recipient;
 		const char* message;
 
@@ -62,18 +77,11 @@ namespace dreamtea
 
 	class RightClickEventPacket : public ServerPacket
 	{
+	public:
+		unsigned short get_id() { return Protocol::RIGHT_CLICK_EVENT; }
+
 		void decode();
 
 		void invoke(EventHandler *handler);
-	};
-
-	class PacketFactory
-	{
-	public:
-		static const unsigned short REGISTER_ARTIFACT = 0;
-		static const unsigned short SEND_MESSAGE = 1;
-		static const unsigned short RIGHT_CLICK_EVENT = 2;
-
-		static Packet make_empty_one(unsigned short id);
 	};
 }

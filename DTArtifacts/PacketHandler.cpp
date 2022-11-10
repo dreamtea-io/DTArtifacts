@@ -16,7 +16,7 @@ namespace dreamtea
 				return;
 			}
 
-			auto packet = PacketFactory::make_empty_one(packet_id);
+			auto packet = Packet::make_empty_one(packet_id);
 			auto packet_ptr = &packet;
 
 			if (packet.get_type() == Packet::SERVER)

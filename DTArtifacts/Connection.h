@@ -23,7 +23,7 @@ namespace dreamtea
 
 		bool is_connected();
 
-		void send_string(const char* data);
+		void send_string(std::string data);
 
 		int receive_string(char* buffer, size_t size);
 

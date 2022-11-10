@@ -47,11 +47,16 @@ namespace dreamtea
 	void send_packet(ClientPacket &pk)
 	{
 		pk.encode();
-		const char* payload = pk.payload.dump().c_str();
+
+		nlohmann::json shell;
+		shell["pk_id"] = pk.get_id();
+		shell["content"] = pk.payload;
+
+		auto payload = shell.dump();
 		
 		connection->send_string(payload);
 
-		delete[] payload;
+		//delete[] payload;
 	}
 
 	void loop()

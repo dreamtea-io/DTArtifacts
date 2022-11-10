@@ -3,15 +3,15 @@
 
 namespace dreamtea
 {
-	Packet PacketFactory::make_empty_one(unsigned short id)
+	Packet Packet::make_empty_one(unsigned short id)
 	{
 		switch (id)
 		{
-		case REGISTER_ARTIFACT:
+		case Protocol::REGISTER_ARTIFACT:
 			return RegisterArtifactPacket();
-		case SEND_MESSAGE:
+		case Protocol::SEND_MESSAGE:
 			return SendMessagePacket();
-		case RIGHT_CLICK_EVENT:
+		case Protocol::RIGHT_CLICK_EVENT:
 			return RightClickEventPacket();
 		}
 
