@@ -10,7 +10,7 @@ namespace dreamtea
 	{
 		static const unsigned short REGISTER_ARTIFACT = 0;
 		static const unsigned short SEND_MESSAGE = 1;
-		static const unsigned short RIGHT_CLICK_EVENT = 2;
+		static const unsigned short EVENT_PACKET = 2;
 	};
 
 	class Packet
@@ -18,26 +18,15 @@ namespace dreamtea
 	public:
 		nlohmann::json payload;
 
-		enum TYPE
-		{
-			UNKNOWN = 0,
-			CLIENT = 1,
-			SERVER = 2
-		};
-
 		virtual unsigned short get_id() { return -1; }
 
-		TYPE get_type();
-
-		static Packet make_empty_one(unsigned short id);
+		static Packet* make_empty_one(unsigned short id);
 	};
 
 	class ClientPacket : public Packet
 	{
 	public:
 		virtual void encode() = 0;
-
-		TYPE get_type();
 	};
 
 	class ServerPacket : public Packet
@@ -46,8 +35,6 @@ namespace dreamtea
 		virtual void decode() = 0;
 
 		virtual void invoke(EventHandler* handler) = 0;
-
-		TYPE get_type();
 	};
 
 	/* CLIENT PACKETS */
@@ -75,10 +62,17 @@ namespace dreamtea
 
 	/* SERVER PACKETS */
 
-	class RightClickEventPacket : public ServerPacket
+	class EventPacket : public ServerPacket
 	{
 	public:
-		unsigned short get_id() { return Protocol::RIGHT_CLICK_EVENT; }
+		unsigned short get_id() { return Protocol::EVENT_PACKET; }
+
+		enum EventType
+		{
+			RIGHT_CLICK = 0x00
+		};
+
+		EventType eventType;
 
 		void decode();
 

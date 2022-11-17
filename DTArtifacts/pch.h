@@ -10,6 +10,7 @@
 // add headers that you want to pre-compile here
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 

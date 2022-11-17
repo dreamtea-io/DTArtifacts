@@ -17,20 +17,17 @@ namespace dreamtea
 			}
 
 			auto packet = Packet::make_empty_one(packet_id);
-			auto packet_ptr = &packet;
+			auto spk = dynamic_cast<ServerPacket*>(packet);
 
-			if (packet.get_type() == Packet::SERVER)
+			if (spk != nullptr)
 			{
-				auto spk = static_cast<ServerPacket*>(packet_ptr);
 				spk->payload = data.at("content");
 				spk->decode();
 
 				spk->invoke(event_handler);
-
-				delete spk;
 			}
 
-			delete packet_ptr;
+			delete spk;
 		}
 
 		//IGNORE

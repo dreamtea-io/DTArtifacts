@@ -53,10 +53,22 @@ namespace dreamtea
 		shell["content"] = pk.payload;
 
 		auto payload = shell.dump();
+
+		std::cout << "sending packet: " << payload << std::endl;
 		
 		connection->send_string(payload);
 
 		//delete[] payload;
+	}
+
+	char* slice(const char buffer[], int length)
+	{
+		auto result = new char[length];
+		for (unsigned int i = 0; i < length; i++)
+		{
+			result[i] = buffer[i];
+		}
+		return result;
 	}
 
 	void loop()
@@ -70,7 +82,8 @@ namespace dreamtea
 			
 			if (result > 0)
 			{
-				nlohmann::json json_result = result;
+				std::string str = buffer;
+				nlohmann::json json_result = nlohmann::json::parse(str.substr(0, result));
 
 				packet_handler->read(event_handler, json_result);
 			}
