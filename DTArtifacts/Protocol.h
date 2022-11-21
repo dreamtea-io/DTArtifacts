@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "Model.h"
 
 namespace dreamtea
 {
@@ -9,6 +10,7 @@ namespace dreamtea
 		static const unsigned short REGISTER_ARTIFACT = 0;
 		static const unsigned short MESSAGE = 1;
 		static const unsigned short EVENT_PACKET = 2;
+		static const unsigned short SET_BLOCK = 3;
 	};
 
 	class Packet
@@ -54,6 +56,18 @@ namespace dreamtea
 
 		std::string playerId;
 		std::string message;
+
+		void encode();
+	};
+
+	class SetBlockPacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::SET_BLOCK; }
+
+		std::string playerId;
+		Vector3 position;
+		std::string block;
 
 		void encode();
 	};

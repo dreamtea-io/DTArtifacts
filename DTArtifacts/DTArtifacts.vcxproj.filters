@@ -63,6 +63,12 @@
     <ClInclude Include="PacketPreprocessor.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DTArtifacts.cpp">
@@ -93,6 +99,12 @@
       <Filter>Source Files\Network</Filter>
     </ClCompile>
     <ClCompile Include="InvokeImpl.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
   </ItemGroup>

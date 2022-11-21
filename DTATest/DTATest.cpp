@@ -8,8 +8,23 @@ class Events : public EventHandler
 {
     void on_right_click(Player* player)
     {
-        player->send_message("Hello world!");
-        std::cout << "ON RIGHT CLICK" << std::endl;
+        player->send_message("Starting...");
+
+        for (int y = 0; y < 5; y++)
+        {
+            for (int x = 2; x < 12; x++)
+            {
+                for (int z = 0; z < 10; z++)
+                {
+                    if ((x > 2 && x < 11) && (z > 0 && z < 9))
+                    {
+                        continue;
+                    }
+
+                    player->world->set_block(x, y, z, "OAK_PLANKS");
+                }
+            }
+        }
     }
 };
 

@@ -13,6 +13,8 @@ namespace dreamtea
 			return new MessagePacket();
 		case Protocol::EVENT_PACKET:
 			return new EventPacket();
+		case Protocol::SET_BLOCK:
+			return new SetBlockPacket();
 		}
 
 		throw;
@@ -29,6 +31,15 @@ namespace dreamtea
 	{
 		payload["player_id"] = this->playerId;
 		payload["message"] = this->message;
+	}
+
+	void SetBlockPacket::encode()
+	{
+		payload["player_id"] = this->playerId;
+		payload["position"]["x"] = this->position.x;
+		payload["position"]["y"] = this->position.y;
+		payload["position"]["z"] = this->position.z;
+		payload["block"] = this->block;
 	}
 
 	/* SERVER PACKETS */

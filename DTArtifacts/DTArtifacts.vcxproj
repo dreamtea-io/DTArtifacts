@@ -144,18 +144,21 @@
     <ClInclude Include="DTArtifacts.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="NetworkInterface.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketPreprocessor.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Protocol.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DTArtifacts.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="InvokeImpl.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="NetworkInterface.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="PacketPreprocessor.cpp" />
@@ -167,6 +170,7 @@
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Protocol.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
