@@ -80,12 +80,13 @@ namespace dreamtea
 
 	int Connection::receive_string(char *buffer, size_t size)
 	{
-		return recv(this->client, buffer, size, (size_t)0);
+		return recv(this->client, buffer, size, (int)0);
 	}
 
 	void Connection::disconnect()
 	{
 		std::cout << "DISCONNECTED" << std::endl;
+
 		this->isConnected = false;
 		closesocket(this->client);
 		WSACleanup();

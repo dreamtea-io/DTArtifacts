@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Event">
       <UniqueIdentifier>{cfc1476e-668b-4957-a406-27d4b25b8bd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\World">
+      <UniqueIdentifier>{f69bb484-a4ee-4841-8904-41772df4b056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{2f3b382e-71a3-4688-a6c6-7c715c73eb81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -48,6 +54,15 @@
     <ClInclude Include="EventHandler.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInterface.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketPreprocessor.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DTArtifacts.cpp">
@@ -67,6 +82,18 @@
     </ClCompile>
     <ClCompile Include="EventHandler.cpp">
       <Filter>Source Files\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkInterface.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketPreprocessor.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="InvokeImpl.cpp">
+      <Filter>Source Files\Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

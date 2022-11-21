@@ -6,8 +6,9 @@ using namespace dreamtea;
 
 class Events : public EventHandler
 {
-    void on_right_click()
+    void on_right_click(Player* player)
     {
+        player->send_message("Hello world!");
         std::cout << "ON RIGHT CLICK" << std::endl;
     }
 };

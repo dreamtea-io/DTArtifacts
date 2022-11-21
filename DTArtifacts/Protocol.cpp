@@ -9,8 +9,8 @@ namespace dreamtea
 		{
 		case Protocol::REGISTER_ARTIFACT:
 			return new RegisterArtifactPacket();
-		case Protocol::SEND_MESSAGE:
-			return new SendMessagePacket();
+		case Protocol::MESSAGE:
+			return new MessagePacket();
 		case Protocol::EVENT_PACKET:
 			return new EventPacket();
 		}
@@ -25,9 +25,9 @@ namespace dreamtea
 		payload["artifact_id"] = this->artifactId;
 	}
 
-	void SendMessagePacket::encode()
+	void MessagePacket::encode()
 	{
-		payload["recipient"] = this->recipient;
+		payload["player_id"] = this->playerId;
 		payload["message"] = this->message;
 	}
 
@@ -35,23 +35,15 @@ namespace dreamtea
 
 	void EventPacket::decode()
 	{
-		switch (payload["eventType"].get<int>())
+		this->playerId = payload["player_id"].get<std::string>();
+
+		switch (payload["event_type"].get<int>())
 		{
 		case 0:
 			this->eventType = EventType::RIGHT_CLICK;
 			break;
 		default:
 			throw std::invalid_argument("TODO");
-		}
-	}
-
-	void EventPacket::invoke(EventHandler *handler)
-	{
-		switch (this->eventType)
-		{
-		case RIGHT_CLICK:
-			handler->on_right_click();
-			break;
 		}
 	}
 }

@@ -2,9 +2,10 @@
 
 #include "pch.h"
 
-#include "Connection.h"
+#include "NetworkInterface.h"
 #include "PacketHandler.h"
 #include "EventHandler.h"
+#include "PacketPreprocessor.h"
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -16,8 +17,6 @@ namespace dreamtea
 	void connect(const char* ip, const char* port);
 
 	void register_artifact(unsigned short id, EventHandler* handler);
-
-	void send_packet(ClientPacket &pk);
 
 	void loop();
 }

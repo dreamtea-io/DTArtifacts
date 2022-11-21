@@ -1,100 +1,63 @@
 #include "pch.h"
 #include "DTArtifacts.h"
 
-#define BUFFER_LENGTH 2048
-
 namespace dreamtea
 {
 	const char* DREAMTEA_IP = "dreamtea.io";
 	const char* DTA_PORT = "7676";
 
-	Connection* connection = NULL;
-
+	NetworkInterface* network_interface = NULL;
 	PacketHandler* packet_handler = NULL;
 	EventHandler* event_handler = NULL;
 
 	void connect(const char* ip = DREAMTEA_IP, const char* port = DTA_PORT)
 	{
+		network_interface = new NetworkInterface();
 		packet_handler = new PacketHandler();
 
-		connection = new Connection(ip, port);
-		connection->try_connect();
+		network_interface->connect(ip, port);
+
+		PacketPreprocessor::set_network_interface(network_interface);
 	}
 
 	void disconnect()
 	{
+		network_interface->disconnect();
+
 		delete packet_handler;
 		delete event_handler;
-
-		connection->disconnect();
+		delete network_interface;
 	}
 
 	void register_artifact(unsigned short id, EventHandler* handler)
 	{
-		if (!connection->is_connected())
+		if (!network_interface->is_connected())
 		{
-			std::cout << "You are not connected to the Spigot server!" << std::endl;
+			std::cout << "You are not connected to the DreamTea server!" << std::endl;
 			return;
 		}
 
 		event_handler = handler;
+		PacketPreprocessor::set_event_handler(handler);
 
 		RegisterArtifactPacket pk;
 		pk.artifactId = id;
-		send_packet(pk);
-	}
-
-	void send_packet(ClientPacket &pk)
-	{
-		pk.encode();
-
-		nlohmann::json shell;
-		shell["pk_id"] = pk.get_id();
-		shell["content"] = pk.payload;
-
-		auto payload = shell.dump();
-
-		std::cout << "sending packet: " << payload << std::endl;
-		
-		connection->send_string(payload);
-
-		//delete[] payload;
-	}
-
-	char* slice(const char buffer[], int length)
-	{
-		auto result = new char[length];
-		for (unsigned int i = 0; i < length; i++)
-		{
-			result[i] = buffer[i];
-		}
-		return result;
+		network_interface->send_packet(pk);
 	}
 
 	void loop()
 	{
-		int result;
 		char buffer[BUFFER_LENGTH];
+		std::optional<nlohmann::json> result;
 
 		do
 		{
-			result = connection->receive_string(buffer, BUFFER_LENGTH);
-			
-			if (result > 0)
-			{
-				std::string str = buffer;
-				nlohmann::json json_result = nlohmann::json::parse(str.substr(0, result));
+			result = network_interface->receive_packet(buffer);
 
-				packet_handler->read(event_handler, json_result);
-			}
-			else if (result == 0)
+			if (result)
 			{
-				std::cout << "Connection closed" << std::endl;
+				packet_handler->read(event_handler, network_interface, *result);
 			}
-			else
-			{
-				std::cout << "Recv failed: " << WSAGetLastError() << std::endl;
-			}
-		} while (result > 0);
+		} while (result != std::nullopt);
 	}
 }

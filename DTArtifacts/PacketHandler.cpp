@@ -3,7 +3,10 @@
 
 namespace dreamtea
 {
-	void PacketHandler::read(EventHandler* event_handler, nlohmann::json &data)
+	void PacketHandler::read(
+		EventHandler* event_handler,
+		NetworkInterface* network_interface,
+		nlohmann::json &data)
 	{
 		unsigned short packet_id = -1;
 
@@ -24,7 +27,7 @@ namespace dreamtea
 				spk->payload = data.at("content");
 				spk->decode();
 
-				spk->invoke(event_handler);
+				spk->invoke();
 			}
 
 			delete spk;

@@ -2,14 +2,12 @@
 
 #include "pch.h"
 
-#include "EventHandler.h"
-
 namespace dreamtea
 {
 	interface Protocol
 	{
 		static const unsigned short REGISTER_ARTIFACT = 0;
-		static const unsigned short SEND_MESSAGE = 1;
+		static const unsigned short MESSAGE = 1;
 		static const unsigned short EVENT_PACKET = 2;
 	};
 
@@ -34,7 +32,7 @@ namespace dreamtea
 	public:
 		virtual void decode() = 0;
 
-		virtual void invoke(EventHandler* handler) = 0;
+		virtual void invoke() = 0;
 	};
 
 	/* CLIENT PACKETS */
@@ -49,13 +47,13 @@ namespace dreamtea
 		void encode();
 	};
 
-	class SendMessagePacket : public ClientPacket
+	class MessagePacket : public ClientPacket
 	{
 	public:
-		unsigned short get_id() { return Protocol::SEND_MESSAGE; }
+		unsigned short get_id() { return Protocol::MESSAGE; }
 
-		unsigned int recipient;
-		const char* message;
+		std::string playerId;
+		std::string message;
 
 		void encode();
 	};
@@ -72,10 +70,11 @@ namespace dreamtea
 			RIGHT_CLICK = 0x00
 		};
 
+		std::string playerId;
 		EventType eventType;
 
 		void decode();
 
-		void invoke(EventHandler *handler);
+		void invoke();
 	};
 }
