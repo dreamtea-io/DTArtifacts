@@ -14,7 +14,7 @@ namespace dreamtea
 		static void set_network_interface(NetworkInterface* network);
 		static void set_event_handler(EventHandler* events);
 
-		static Player* retrieve_player(std::string id);
+		static Player* retrieve_player();
 		static EventHandler* retrieve_event_handler();
 	};
 }

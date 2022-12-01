@@ -19,9 +19,9 @@ namespace dreamtea
 		event_handler = events;
 	}
 
-	Player* PacketPreprocessor::retrieve_player(std::string id)
+	Player* PacketPreprocessor::retrieve_player()
 	{
-		auto player = new Player(id, network_interface);
+		auto player = new Player(network_interface);
 
 		return player;
 	}

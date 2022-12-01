@@ -6,13 +6,10 @@ namespace dreamtea
 {
 	class World
 	{
-		std::string playerId;
-
 		NetworkInterface* network_interface = NULL;
 	public:
-		World(std::string playerId, NetworkInterface* network)
+		World(NetworkInterface* network)
 		{
-			this->playerId = playerId;
 			this->network_interface = network;
 		}
 

@@ -7,7 +7,7 @@ namespace dreamtea
 	void EventPacket::invoke()
 	{
 		auto handler = PacketPreprocessor::retrieve_event_handler();
-		auto player = PacketPreprocessor::retrieve_player(this->playerId);
+		auto player = PacketPreprocessor::retrieve_player();
 
 		switch (this->eventType)
 		{

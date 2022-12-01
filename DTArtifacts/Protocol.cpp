@@ -25,29 +25,39 @@ namespace dreamtea
 	void RegisterArtifactPacket::encode()
 	{
 		payload["artifact_id"] = this->artifactId;
+		payload["username"] = this->username;
 	}
 
 	void MessagePacket::encode()
 	{
-		payload["player_id"] = this->playerId;
 		payload["message"] = this->message;
 	}
 
 	void SetBlockPacket::encode()
 	{
-		payload["player_id"] = this->playerId;
 		payload["position"]["x"] = this->position.x;
 		payload["position"]["y"] = this->position.y;
 		payload["position"]["z"] = this->position.z;
 		payload["block"] = this->block;
 	}
 
+	void PositionPacket::encode()
+	{
+		payload["action"] = this->action;
+		payload["reset"] = this->reset;
+	}
+
+	void VelocityPacket::encode()
+	{
+		payload["motion"]["x"] = this->motion.x;
+		payload["motion"]["y"] = this->motion.y;
+		payload["motion"]["z"] = this->motion.z;
+	}
+
 	/* SERVER PACKETS */
 
 	void EventPacket::decode()
 	{
-		this->playerId = payload["player_id"].get<std::string>();
-
 		switch (payload["event_type"].get<int>())
 		{
 		case 0:

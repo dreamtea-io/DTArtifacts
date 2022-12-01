@@ -8,7 +8,10 @@ class Events : public EventHandler
 {
     void on_right_click(Player* player)
     {
+        player->fix_position();
+
         player->send_message("Starting...");
+        player->set_velocity(Vector3(0, 1, 0));
 
         for (int y = 0; y < 5; y++)
         {

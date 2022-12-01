@@ -9,18 +9,15 @@ namespace dreamtea
 	class Player
 	{
 	private:
-		std::string playerId;
-
 		NetworkInterface* network_interface = NULL;
 	public:
 		World* world = NULL;
 
-		Player(std::string playerId, NetworkInterface* network)
+		Player(NetworkInterface* network)
 		{
-			this->playerId = playerId;
 			this->network_interface = network;
 
-			this->world = new World(playerId, network);
+			this->world = new World(network);
 		}
 
 		~Player()
@@ -28,6 +25,12 @@ namespace dreamtea
 			delete world;
 		}
 
+		void fix_position();
+
+		void reset_position();
+
 		void send_message(std::string message);
+
+		void set_velocity(Vector3 motion);
 	};
 }

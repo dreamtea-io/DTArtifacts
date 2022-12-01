@@ -11,6 +11,8 @@ namespace dreamtea
 		static const unsigned short MESSAGE = 1;
 		static const unsigned short EVENT_PACKET = 2;
 		static const unsigned short SET_BLOCK = 3;
+		static const unsigned short POSITION = 4;
+		static const unsigned short VELOCITY = 5;
 	};
 
 	class Packet
@@ -45,6 +47,7 @@ namespace dreamtea
 		unsigned short get_id() { return Protocol::REGISTER_ARTIFACT; }
 
 		unsigned short artifactId;
+		std::string username;
 
 		void encode();
 	};
@@ -54,7 +57,6 @@ namespace dreamtea
 	public:
 		unsigned short get_id() { return Protocol::MESSAGE; }
 
-		std::string playerId;
 		std::string message;
 
 		void encode();
@@ -65,9 +67,35 @@ namespace dreamtea
 	public:
 		unsigned short get_id() { return Protocol::SET_BLOCK; }
 
-		std::string playerId;
 		Vector3 position;
 		std::string block;
+
+		void encode();
+	};
+
+	class PositionPacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::POSITION; }
+
+		enum ActionType
+		{
+			FIX = 0x00,
+			RESET = 0x01
+		};
+
+		ActionType action;
+		bool reset;
+
+		void encode();
+	};
+
+	class VelocityPacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::VELOCITY; }
+
+		Vector3 motion;
 
 		void encode();
 	};
@@ -84,7 +112,6 @@ namespace dreamtea
 			RIGHT_CLICK = 0x00
 		};
 
-		std::string playerId;
 		EventType eventType;
 
 		void decode();

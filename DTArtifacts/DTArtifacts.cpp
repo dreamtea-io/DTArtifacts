@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "DTArtifacts.h"
+#include "Config.h"
 
 namespace dreamtea
 {
 	const char* DREAMTEA_IP = "dreamtea.io";
 	const char* DTA_PORT = "7676";
+
+	Config config;
 
 	NetworkInterface* network_interface = NULL;
 	PacketHandler* packet_handler = NULL;
@@ -37,11 +40,19 @@ namespace dreamtea
 			return;
 		}
 
+		config = Config::load();
+		if (config.username == "null")
+		{
+			std::cout << "Please type your Minecraft username to the config.json around your .exe file" << std::endl;
+			return;
+		}
+
 		event_handler = handler;
 		PacketPreprocessor::set_event_handler(handler);
 
 		RegisterArtifactPacket pk;
 		pk.artifactId = id;
+		pk.username = config.username;
 		network_interface->send_packet(pk);
 	}
 
@@ -56,7 +67,7 @@ namespace dreamtea
 
 			if (result)
 			{
-				packet_handler->read(event_handler, network_interface, *result);
+				packet_handler->read(*result);
 			}
 		} while (result != std::nullopt);
 	}

@@ -3,10 +3,7 @@
 
 namespace dreamtea
 {
-	void PacketHandler::read(
-		EventHandler* event_handler,
-		NetworkInterface* network_interface,
-		nlohmann::json &data)
+	void PacketHandler::read(nlohmann::json &data)
 	{
 		unsigned short packet_id = -1;
 
