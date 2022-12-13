@@ -17,12 +17,34 @@ namespace dreamtea
 		add_particle(x, y, z, particle, {});
 	}
 
-	void World::add_particle(double x, double y, double z, Particle particle, std::optional<Color> color)
+	void World::add_particle(double x, double y, double z, Particle particle, std::optional<ParticleOptions> options)
 	{
 		AddParticlePacket pk;
 		pk.position = Vector3(x, y, z);
 		pk.type = particle;
-		pk.color = color;
+		pk.options = options;
 		network_interface->send_packet(pk);
+	}
+
+	void World::get_nearby_entities(double x, double y, double z, double radius, std::function<void(Entity)> callback)
+	{
+		auto request_id = last_request_id++;
+
+		nearby_entities_callbacks[request_id] = callback;
+
+		NearbyEntitiesPacket pk;
+		pk.request_id = request_id;
+		pk.position = Vector3(x, y, z);
+		pk.radius = radius;
+		network_interface->send_packet(pk);
+	}
+
+	void World::handle_nearby_entity(unsigned long long request_id, Entity entity)
+	{
+		if (nearby_entities_callbacks.contains(request_id))
+		{
+			nearby_entities_callbacks[request_id](entity);
+			nearby_entities_callbacks.erase(request_id);
+		}
 	}
 }

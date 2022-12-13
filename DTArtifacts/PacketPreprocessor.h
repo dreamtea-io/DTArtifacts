@@ -10,6 +10,7 @@ namespace dreamtea
 	{
 		static NetworkInterface* network_interface;
 		static EventHandler* event_handler;
+		static Player* player;
 	public:
 		static void set_network_interface(NetworkInterface* network);
 		static void set_event_handler(EventHandler* events);

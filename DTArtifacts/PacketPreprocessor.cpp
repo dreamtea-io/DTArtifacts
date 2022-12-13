@@ -8,6 +8,7 @@ namespace dreamtea
 {
 	NetworkInterface* PacketPreprocessor::network_interface = NULL;
 	EventHandler* PacketPreprocessor::event_handler = NULL;
+	Player* PacketPreprocessor::player = NULL;
 
 	void PacketPreprocessor::set_network_interface(NetworkInterface* network)
 	{
@@ -21,7 +22,10 @@ namespace dreamtea
 
 	Player* PacketPreprocessor::retrieve_player()
 	{
-		auto player = new Player(network_interface);
+		if (player == NULL)
+		{
+			player = new Player(network_interface);
+		}
 
 		return player;
 	}

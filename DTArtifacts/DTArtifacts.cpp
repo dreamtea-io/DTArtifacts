@@ -12,6 +12,7 @@ namespace dreamtea
 	NetworkInterface* network_interface = NULL;
 	PacketHandler* packet_handler = NULL;
 	EventHandler* event_handler = NULL;
+	Scheduler* scheduler = NULL;
 
 	void connect(const char* ip = DREAMTEA_IP, const char* port = DTA_PORT)
 	{
@@ -20,6 +21,7 @@ namespace dreamtea
 
 		network_interface->connect(ip, port);
 
+		scheduler = new Scheduler(network_interface);
 		PacketPreprocessor::set_network_interface(network_interface);
 	}
 
@@ -56,19 +58,24 @@ namespace dreamtea
 		network_interface->send_packet(pk);
 	}
 
+	Scheduler* get_scheduler()
+	{
+		return scheduler;
+	}
+
 	void loop()
 	{
 		char buffer[BUFFER_LENGTH];
-		std::optional<nlohmann::json> result;
+		std::vector<nlohmann::json> result;
 
 		do
 		{
-			result = network_interface->receive_packet(buffer);
+			result = network_interface->receive_packets(buffer);
 
-			if (result)
+			for (auto& packet : result)
 			{
-				packet_handler->read(*result);
+				packet_handler->read(packet);
 			}
-		} while (result != std::nullopt);
+		} while (!result.empty());
 	}
 }

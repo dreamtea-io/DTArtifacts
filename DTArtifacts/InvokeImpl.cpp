@@ -15,8 +15,21 @@ namespace dreamtea
 		case RIGHT_CLICK:
 			handler->on_right_click(player);
 			break;
+		case TIMER:
+			handler->on_timer(player);
+			break;
 		}
 
-		delete player;
+		//delete player;
+	}
+
+	void NearbyEntitiesResponsePacket::invoke()
+	{
+		auto player = PacketPreprocessor::retrieve_player();
+		
+		for (auto& entity : this->entities)
+		{
+			player->world->handle_nearby_entity(this->request_id, entity);
+		}
 	}
 }

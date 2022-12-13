@@ -7,6 +7,9 @@ namespace dreamtea
 	class World
 	{
 		NetworkInterface* network_interface = NULL;
+
+		unsigned long long last_request_id = 0;
+		std::unordered_map<unsigned long long, std::function<void(Entity)>> nearby_entities_callbacks;
 	public:
 		World(NetworkInterface* network)
 		{
@@ -17,6 +20,10 @@ namespace dreamtea
 
 		void add_particle(double x, double y, double z, Particle particle);
 
-		void add_particle(double x, double y, double z, Particle particle, std::optional<Color> color);
+		void add_particle(double x, double y, double z, Particle particle, std::optional<ParticleOptions> options);
+
+		void get_nearby_entities(double x, double y, double z, double radius, std::function<void(Entity)> callback);
+
+		void handle_nearby_entity(unsigned long long request_id, Entity entity);
 	};
 }

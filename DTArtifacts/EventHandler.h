@@ -9,5 +9,7 @@ namespace dreamtea
 	{
 	public:
 		virtual void on_right_click(Player* player);
+
+		virtual void on_timer(Player* player);
 	};
 }

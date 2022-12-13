@@ -37,16 +37,30 @@ namespace dreamtea
 		connection->send_string(payload);
 	}
 
-	std::optional<nlohmann::json> NetworkInterface::receive_packet(char (&buffer)[BUFFER_LENGTH])
+	std::vector<nlohmann::json> NetworkInterface::receive_packets(char (&buffer)[BUFFER_LENGTH])
 	{
 		int result = connection->receive_string(buffer, BUFFER_LENGTH);
+		std::vector<nlohmann::json> packets;
 
 		if (result > 0)
 		{
-			std::string str = buffer;
-			nlohmann::json json_result = nlohmann::json::parse(str.substr(0, result));
+			for (int i = 0; i < result; i++)
+			{
+				char c = buffer[i];
 
-			return { json_result };
+				if (c == '\0')
+				{
+					nlohmann::json json_result = nlohmann::json::parse(split_buffer);
+					packets.push_back(json_result);
+
+					split_buffer.clear();
+					continue;
+				}
+
+				split_buffer += c;
+			}
+
+			return packets;
 		}
 		else if (result == 0)
 		{
@@ -57,6 +71,6 @@ namespace dreamtea
 			std::cout << "Recv failed: " << WSAGetLastError() << std::endl;
 		}
 
-		return std::nullopt;
+		return packets;
 	}
 }

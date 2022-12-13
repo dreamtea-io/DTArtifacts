@@ -12,6 +12,8 @@ namespace dreamtea
 	{
 	private:
 		Connection* connection = NULL;
+
+		std::string split_buffer;
 	public:
 		void connect(const char* ip, const char* port);
 
@@ -21,6 +23,6 @@ namespace dreamtea
 
 		void send_packet(ClientPacket& pk);
 
-		std::optional<nlohmann::json> receive_packet(char (&buffer)[BUFFER_LENGTH]);
+		std::vector<nlohmann::json> receive_packets(char (&buffer)[BUFFER_LENGTH]);
 	};
 }

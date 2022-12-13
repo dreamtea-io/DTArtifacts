@@ -8,7 +8,6 @@ namespace dreamtea
 {
 	class Player
 	{
-	private:
 		NetworkInterface* network_interface = NULL;
 
 		Vector3 direction;
