@@ -1,5 +1,6 @@
 .vs/
 x64/
+DTATest/config.json
 
 # Prerequisites
 *.d

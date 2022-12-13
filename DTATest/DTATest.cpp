@@ -11,22 +11,24 @@ class Events : public EventHandler
         player->fix_position();
 
         player->send_message("Starting...");
-        player->set_velocity(Vector3(0, 1, 0));
+        //player->set_velocity(Vector3(0, 1, 0));
 
-        for (int y = 0; y < 5; y++)
+        auto direction = player->get_direction();
+        auto color = Color(0, 0, 0);
+
+        for (int i = 0; i < 30; i++)
         {
-            for (int x = 2; x < 12; x++)
-            {
-                for (int z = 0; z < 10; z++)
-                {
-                    if ((x > 2 && x < 11) && (z > 0 && z < 9))
-                    {
-                        continue;
-                    }
+            color.r = (255 / 30) * i;
+            color.g = (255 / 40) * i;
+            color.b = (255 / 50) * i;
 
-                    player->world->set_block(x, y, z, "OAK_PLANKS");
-                }
-            }
+            player->world->add_particle(
+                direction.x * i,
+                direction.y * i + 1.0,
+                direction.z * i,
+                Particle::DUST,
+                color
+            );
         }
     }
 };

@@ -10,6 +10,8 @@ namespace dreamtea
 	{
 	private:
 		NetworkInterface* network_interface = NULL;
+
+		Vector3 direction;
 	public:
 		World* world = NULL;
 
@@ -23,6 +25,16 @@ namespace dreamtea
 		~Player()
 		{
 			delete world;
+		}
+
+		Vector3& get_direction()
+		{
+			return this->direction;
+		}
+
+		void set_direction(Vector3 direction)
+		{
+			this->direction = direction;
 		}
 
 		void fix_position();

@@ -30,6 +30,7 @@ namespace dreamtea
 		shell["content"] = pk.payload;
 
 		auto payload = shell.dump();
+		payload += '\0';
 
 		std::cout << "sending packet: " << payload << std::endl;
 

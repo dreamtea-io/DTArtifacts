@@ -13,6 +13,7 @@ namespace dreamtea
 		static const unsigned short SET_BLOCK = 3;
 		static const unsigned short POSITION = 4;
 		static const unsigned short VELOCITY = 5;
+		static const unsigned short ADD_PARTICLE = 6;
 	};
 
 	class Packet
@@ -100,6 +101,18 @@ namespace dreamtea
 		void encode();
 	};
 
+	class AddParticlePacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::ADD_PARTICLE; }
+
+		Vector3 position;
+		Particle type;
+		std::optional<Color> color;
+
+		void encode();
+	};
+
 	/* SERVER PACKETS */
 
 	class EventPacket : public ServerPacket
@@ -113,6 +126,7 @@ namespace dreamtea
 		};
 
 		EventType eventType;
+		Vector3 direction;
 
 		void decode();
 

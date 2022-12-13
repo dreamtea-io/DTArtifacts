@@ -25,9 +25,9 @@ namespace dreamtea
 				spk->decode();
 
 				spk->invoke();
-			}
 
-			delete spk;
+				delete spk;
+			}
 		}
 
 		//IGNORE

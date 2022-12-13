@@ -14,5 +14,9 @@ namespace dreamtea
 		}
 
 		void set_block(int x, int y, int z, std::string block);
+
+		void add_particle(double x, double y, double z, Particle particle);
+
+		void add_particle(double x, double y, double z, Particle particle, std::optional<Color> color);
 	};
 }

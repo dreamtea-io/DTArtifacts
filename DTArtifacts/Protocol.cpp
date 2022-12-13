@@ -54,10 +54,33 @@ namespace dreamtea
 		payload["motion"]["z"] = this->motion.z;
 	}
 
+	void AddParticlePacket::encode()
+	{
+		payload["position"]["x"] = this->position.x;
+		payload["position"]["y"] = this->position.y;
+		payload["position"]["z"] = this->position.z;
+		payload["type"] = this->type;
+		
+		if (this->color.has_value())
+		{
+			auto& color = this->color.value();
+
+			payload["color"]["r"] = color.r;
+			payload["color"]["g"] = color.g;
+			payload["color"]["b"] = color.b;
+		}
+	}
+
 	/* SERVER PACKETS */
 
 	void EventPacket::decode()
 	{
+		this->direction = Vector3(
+			payload["direction"]["x"].get<double>(),
+			payload["direction"]["y"].get<double>(),
+			payload["direction"]["z"].get<double>()
+		);
+
 		switch (payload["event_type"].get<int>())
 		{
 		case 0:

@@ -8,6 +8,7 @@ namespace dreamtea
 	{
 		auto handler = PacketPreprocessor::retrieve_event_handler();
 		auto player = PacketPreprocessor::retrieve_player();
+		player->set_direction(this->direction);
 
 		switch (this->eventType)
 		{
