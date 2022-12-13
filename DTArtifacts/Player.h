@@ -43,5 +43,9 @@ namespace dreamtea
 		void send_message(std::string message);
 
 		void set_velocity(Vector3 motion);
+
+		void attack(Entity& entity, int damage);
+
+		void burn(Entity& entity, int ticks);
 	};
 }

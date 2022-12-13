@@ -33,4 +33,22 @@ namespace dreamtea
 		pk.motion = motion;
 		network_interface->send_packet(pk);
 	}
+
+	void Player::attack(Entity& entity, int damage)
+	{
+		EntityInteractionPacket pk;
+		pk.entity_id = entity.id;
+		pk.type = EntityInteractionPacket::DAMAGE;
+		pk.data = damage;
+		network_interface->send_packet(pk);
+	}
+
+	void Player::burn(Entity& entity, int ticks)
+	{
+		EntityInteractionPacket pk;
+		pk.entity_id = entity.id;
+		pk.type = EntityInteractionPacket::BURN;
+		pk.data = ticks;
+		network_interface->send_packet(pk);
+	}
 }

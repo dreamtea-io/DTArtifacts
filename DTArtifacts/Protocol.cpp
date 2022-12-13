@@ -27,6 +27,8 @@ namespace dreamtea
 			return new NearbyEntitiesPacket();
 		case Protocol::NEARBY_ENTITIES_RESPONSE:
 			return new NearbyEntitiesResponsePacket();
+		case Protocol::ENTITY_INTERACTION:
+			return new EntityInteractionPacket();
 		}
 
 		throw;
@@ -106,6 +108,13 @@ namespace dreamtea
 		payload["position"]["y"] = this->position.y;
 		payload["position"]["z"] = this->position.z;
 		payload["radius"] = this->radius;
+	}
+
+	void EntityInteractionPacket::encode()
+	{
+		payload["entity_id"] = this->entity_id;
+		payload["type"] = this->type;
+		payload["data"] = this->data;
 	}
 
 	/* SERVER PACKETS */

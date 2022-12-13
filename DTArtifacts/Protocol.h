@@ -17,6 +17,7 @@ namespace dreamtea
 		static const unsigned short TIMER = 7;
 		static const unsigned short NEARBY_ENTITIES = 8;
 		static const unsigned short NEARBY_ENTITIES_RESPONSE = 9;
+		static const unsigned short ENTITY_INTERACTION = 10;
 	};
 
 	class Packet
@@ -142,6 +143,24 @@ namespace dreamtea
 		unsigned long long request_id;
 		Vector3 position;
 		double radius;
+
+		void encode();
+	};
+
+	class EntityInteractionPacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::ENTITY_INTERACTION; }
+
+		enum InteractionType
+		{
+			DAMAGE = 0,
+			BURN = 1
+		};
+
+		unsigned long long entity_id;
+		InteractionType type;
+		int data;
 
 		void encode();
 	};

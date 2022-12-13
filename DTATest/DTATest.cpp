@@ -50,6 +50,8 @@ class Events : public EventHandler
                         entity.position.z,
                         Particle::HEART
                     );
+                    player->attack(entity, 5);
+                    player->burn(entity, 100);
                 });
             }
             ask_nearby = !ask_nearby;
