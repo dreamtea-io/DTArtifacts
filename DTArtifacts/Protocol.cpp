@@ -21,8 +21,6 @@ namespace dreamtea
 			return new VelocityPacket();
 		case Protocol::ADD_PARTICLE:
 			return new AddParticlePacket();
-		case Protocol::TIMER:
-			return new TimerPacket();
 		case Protocol::NEARBY_ENTITIES:
 			return new NearbyEntitiesPacket();
 		case Protocol::NEARBY_ENTITIES_RESPONSE:
@@ -87,17 +85,6 @@ namespace dreamtea
 			}
 
 			payload["options"]["fixed_position"] = this->options->fixed_position;
-		}
-	}
-
-	void TimerPacket::encode()
-	{
-		payload["action"] = this->action;
-
-		if (this->action == TimerPacket::START)
-		{
-			payload["ticks"] = this->ticks;
-			payload["repeat"] = this->repeat;
 		}
 	}
 

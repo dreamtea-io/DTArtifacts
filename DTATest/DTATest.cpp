@@ -17,46 +17,51 @@ class Events : public EventHandler
 
         direction = player->get_direction();
 
-        auto color = Color(0, 0, 0);
-
-        bool ask_nearby = false;
-
-        for (int i = 0; i < 30; i++)
+        get_scheduler().run_task([player](int counter)
         {
-            color.r = (255 / 30) * i;
-            color.g = (255 / 40) * i;
-            color.b = (255 / 50) * i;
+            auto color = Color(0, 0, 0);
 
-            Vector3 position(
-                direction.x * i,
-                direction.y * i + 1.0,
-                direction.z * i
-            );
-            player->world->add_particle(
-                position.x,
-                position.y,
-                position.z,
-                Particle::DUST,
-                ParticleOptions(color, true)
-            );
+            bool ask_nearby = false;
 
-            if (ask_nearby)
+            for (int i = 0; i < 30; i++)
             {
-                player->world->get_nearby_entities(position.x, position.y, position.z, 1, [player](Entity entity) {
-                    player->world->add_particle(
-                        entity.position.x,
-                        entity.position.y + 2.0,
-                        entity.position.z,
-                        Particle::HEART
-                    );
-                    player->attack(entity, 5);
-                    player->burn(entity, 100);
-                });
-            }
-            ask_nearby = !ask_nearby;
-        }
+                color.r = (255 / 30) * i;
+                color.g = (255 / 40) * i;
+                color.b = (255 / 50) * i;
 
-        //get_scheduler()->run_task(20 * 10, 20);
+                Vector3 position(
+                    direction.x * i,
+                    direction.y * i + 1.0,
+                    direction.z * i
+                );
+                player->world->add_particle(
+                    position.x,
+                    position.y,
+                    position.z,
+                    Particle::DUST,
+                    ParticleOptions(color, true)
+                );
+
+                if (ask_nearby)
+                {
+                    player->world->get_nearby_entities(position.x, position.y, position.z, 1, [player](Entity entity) {
+                        player->world->add_particle(
+                            entity.position.x,
+                            entity.position.y + 2.0,
+                            entity.position.z,
+                            Particle::HEART
+                        );
+                        player->attack(entity, 5);
+                        player->burn(entity, 100);
+                     });
+                }
+                ask_nearby = !ask_nearby;
+            }
+
+            if (counter == 5) return false;
+
+            return true;
+        }, std::chrono::milliseconds(500));
     }
 };
 

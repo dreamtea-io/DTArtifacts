@@ -14,10 +14,9 @@ namespace dreamtea
 		static const unsigned short POSITION = 4;
 		static const unsigned short VELOCITY = 5;
 		static const unsigned short ADD_PARTICLE = 6;
-		static const unsigned short TIMER = 7;
-		static const unsigned short NEARBY_ENTITIES = 8;
-		static const unsigned short NEARBY_ENTITIES_RESPONSE = 9;
-		static const unsigned short ENTITY_INTERACTION = 10;
+		static const unsigned short NEARBY_ENTITIES = 7;
+		static const unsigned short NEARBY_ENTITIES_RESPONSE = 8;
+		static const unsigned short ENTITY_INTERACTION = 9;
 	};
 
 	class Packet
@@ -111,24 +110,6 @@ namespace dreamtea
 		Vector3 position;
 		Particle type;
 		std::optional<ParticleOptions> options;
-
-		void encode();
-	};
-
-	class TimerPacket : public ClientPacket
-	{
-	public:
-		unsigned short get_id() { return Protocol::TIMER; }
-
-		enum ActionType
-		{
-			START = 0x00,
-			STOP = 0x01
-		};
-
-		ActionType action;
-		int ticks;
-		int repeat;
 
 		void encode();
 	};

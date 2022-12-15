@@ -74,10 +74,12 @@ namespace dreamtea
 				delete packet;
 			}
 
+			scheduler.tick();
+
 			auto end = std::chrono::high_resolution_clock().now();
 
 			std::chrono::duration<float> duration = end - start;
-			float time = (1.0 / TICKRATE) - duration.count();
+			float time = (1.0f / TICKRATE) - duration.count();
 
 			if (time > 0)
 			{

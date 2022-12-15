@@ -9,6 +9,8 @@
 
 // add headers that you want to pre-compile here
 #include <iostream>
+#include <unordered_map>
+#include <set>
 #include <optional>
 #include <string>
 #include <thread>
