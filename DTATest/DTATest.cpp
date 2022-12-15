@@ -32,7 +32,6 @@ class Events : public EventHandler
                 direction.y * i + 1.0,
                 direction.z * i
             );
-
             player->world->add_particle(
                 position.x,
                 position.y,
@@ -58,11 +57,6 @@ class Events : public EventHandler
         }
 
         //get_scheduler()->run_task(20 * 10, 20);
-    }
-
-    void on_timer(Player* player)
-    {
-        
     }
 };
 

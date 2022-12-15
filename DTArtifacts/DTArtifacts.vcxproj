@@ -149,7 +149,6 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="NetworkInterface.h" />
     <ClInclude Include="PacketHandler.h" />
-    <ClInclude Include="PacketPreprocessor.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Protocol.h" />
@@ -160,11 +159,9 @@
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DTArtifacts.cpp" />
     <ClCompile Include="EventHandler.cpp" />
-    <ClCompile Include="InvokeImpl.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="NetworkInterface.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
-    <ClCompile Include="PacketPreprocessor.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

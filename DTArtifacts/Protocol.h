@@ -40,8 +40,6 @@ namespace dreamtea
 	{
 	public:
 		virtual void decode() = 0;
-
-		virtual void invoke() = 0;
 	};
 
 	/* CLIENT PACKETS */
@@ -182,8 +180,6 @@ namespace dreamtea
 		Vector3 direction;
 
 		void decode();
-
-		void invoke();
 	};
 
 	class NearbyEntitiesResponsePacket : public ServerPacket
@@ -195,7 +191,5 @@ namespace dreamtea
 		std::vector<Entity> entities;
 
 		void decode();
-
-		void invoke();
 	};
 }

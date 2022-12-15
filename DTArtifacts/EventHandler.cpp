@@ -7,9 +7,4 @@ namespace dreamtea
 	{
 		// EMPTY
 	}
-
-	void EventHandler::on_timer(Player* player)
-	{
-		// EMPTY
-	}
 }

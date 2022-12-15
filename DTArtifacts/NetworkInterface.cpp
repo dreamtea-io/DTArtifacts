@@ -1,8 +1,53 @@
 #include "pch.h"
 #include "NetworkInterface.h"
 
+#include "PacketHandler.h"
+
 namespace dreamtea
 {
+	bool NetworkInterface::read(char(&buffer)[BUFFER_LENGTH])
+	{
+		int result = connection->receive_string(buffer, BUFFER_LENGTH);
+
+		if (result > 0)
+		{
+			for (int i = 0; i < result; i++)
+			{
+				char c = buffer[i];
+
+				if (c == '\0')
+				{
+					nlohmann::json json_result = nlohmann::json::parse(split_buffer);
+					auto pk = PacketHandler::read(json_result);
+
+					if (pk != NULL)
+					{
+						receive_mtx.lock();
+						received_packets.push_back(pk);
+						receive_mtx.unlock();
+					}
+
+					split_buffer.clear();
+					continue;
+				}
+
+				split_buffer += c;
+			}
+
+			return true;
+		}
+		else if (result == 0)
+		{
+			std::cout << "Connection closed" << std::endl;
+		}
+		else
+		{
+			std::cout << "Recv failed: " << WSAGetLastError() << std::endl;
+		}
+
+		return false;
+	}
+
 	void NetworkInterface::connect(const char* ip, const char* port)
 	{
 		connection = new Connection(ip, port);
@@ -37,40 +82,29 @@ namespace dreamtea
 		connection->send_string(payload);
 	}
 
-	std::vector<nlohmann::json> NetworkInterface::receive_packets(char (&buffer)[BUFFER_LENGTH])
+	std::vector<ServerPacket*> NetworkInterface::read_packets()
 	{
-		int result = connection->receive_string(buffer, BUFFER_LENGTH);
-		std::vector<nlohmann::json> packets;
+		receive_mtx.lock();
 
-		if (result > 0)
-		{
-			for (int i = 0; i < result; i++)
-			{
-				char c = buffer[i];
+		auto packets = received_packets;
+		received_packets.clear();
 
-				if (c == '\0')
-				{
-					nlohmann::json json_result = nlohmann::json::parse(split_buffer);
-					packets.push_back(json_result);
-
-					split_buffer.clear();
-					continue;
-				}
-
-				split_buffer += c;
-			}
-
-			return packets;
-		}
-		else if (result == 0)
-		{
-			std::cout << "Connection closed" << std::endl;
-		}
-		else
-		{
-			std::cout << "Recv failed: " << WSAGetLastError() << std::endl;
-		}
+		receive_mtx.unlock();
 
 		return packets;
+	}
+
+	void NetworkInterface::run()
+	{
+		char buffer[BUFFER_LENGTH];
+
+		while (true)
+		{
+			if (connection->is_connected() && !read(buffer))
+			{
+				std::this_thread::sleep_for(std::chrono::seconds(5));
+				connection->try_connect();
+			}
+		}
 	}
 }

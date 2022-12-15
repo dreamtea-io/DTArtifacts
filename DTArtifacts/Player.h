@@ -14,16 +14,15 @@ namespace dreamtea
 	public:
 		World* world = NULL;
 
-		Player(NetworkInterface* network)
+		Player(NetworkInterface& network)
 		{
-			this->network_interface = network;
-
-			this->world = new World(network);
+			this->network_interface = &network;
+			this->world = new World(&network);
 		}
 
 		~Player()
 		{
-			delete world;
+			delete this->world;
 		}
 
 		Vector3& get_direction()
