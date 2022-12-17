@@ -65,13 +65,13 @@ namespace dreamtea
 		PLAYER = 1
 	};
 
-	struct Entity
+	struct EntityModel
 	{
 		unsigned long long id;
 		EntityType type;
 		Vector3 position;
 
-		Entity(unsigned long long id, EntityType type, Vector3 position)
+		EntityModel(unsigned long long id, EntityType type, Vector3 position)
 		{
 			this->id = id;
 			this->type = type;

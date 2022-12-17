@@ -15,7 +15,7 @@ namespace dreamtea
 
 	Player player(network_interface);
 
-	PacketHandler packet_handler(player, NULL);
+	PacketHandler packet_handler(player, network_interface, NULL);
 
 	std::thread network_thread(&NetworkInterface::run, &network_interface);
 

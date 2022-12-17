@@ -26,11 +26,20 @@ namespace dreamtea
 		network_interface->send_packet(pk);
 	}
 
+	void World::spawn_entity(double x, double y, double z, EntityType type)
+	{
+		SpawnEntityPacket pk;
+		pk.request_id = last_request_id++;
+		pk.position = Vector3(x, y, z);
+		pk.type = type;
+		network_interface->send_packet(pk);
+	}
+
 	void World::get_nearby_entities(double x, double y, double z, double radius, std::function<void(Entity)> callback)
 	{
 		auto request_id = last_request_id++;
 
-		nearby_entities_callbacks[request_id] = callback;
+		entity_callbacks[request_id] = callback;
 
 		NearbyEntitiesPacket pk;
 		pk.request_id = request_id;
@@ -39,12 +48,12 @@ namespace dreamtea
 		network_interface->send_packet(pk);
 	}
 
-	void World::handle_nearby_entity(unsigned long long request_id, Entity entity)
+	void World::handle_entity_response(unsigned long long request_id, Entity entity)
 	{
-		if (nearby_entities_callbacks.contains(request_id))
+		if (entity_callbacks.contains(request_id))
 		{
-			nearby_entities_callbacks[request_id](entity);
-			nearby_entities_callbacks.erase(request_id);
+			entity_callbacks[request_id](entity);
+			entity_callbacks.erase(request_id);
 		}
 	}
 }

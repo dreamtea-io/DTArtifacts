@@ -3,18 +3,16 @@
 #include "pch.h"
 #include "NetworkInterface.h"
 #include "World.h"
+#include "Entity.h"
 
 namespace dreamtea
 {
-	class Player
+	class Player : public Entity
 	{
-		NetworkInterface* network_interface = NULL;
-
-		Vector3 direction;
 	public:
 		World* world = NULL;
 
-		Player(NetworkInterface& network)
+		Player(NetworkInterface& network) : Entity(&network, EntityModel(-1, EntityType::PLAYER, Vector3()))
 		{
 			this->network_interface = &network;
 			this->world = new World(&network);
@@ -25,23 +23,11 @@ namespace dreamtea
 			delete this->world;
 		}
 
-		Vector3& get_direction()
-		{
-			return this->direction;
-		}
-
-		void set_direction(Vector3 direction)
-		{
-			this->direction = direction;
-		}
-
 		void fix_position();
 
 		void reset_position();
 
 		void send_message(std::string message);
-
-		void set_velocity(Vector3 motion);
 
 		void attack(Entity& entity, int damage);
 

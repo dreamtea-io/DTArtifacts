@@ -10,12 +10,14 @@ namespace dreamtea
 	class PacketHandler
 	{
 		Player* player = NULL;
+		NetworkInterface* network_interface = NULL;
 	public:
 		EventHandler* event_handler = NULL;
 
-		PacketHandler(Player& player, EventHandler* event_handler)
+		PacketHandler(Player& player, NetworkInterface& network, EventHandler* event_handler)
 		{
 			this->player = &player;
+			this->network_interface = &network;
 			this->event_handler = event_handler;
 		}
 
@@ -25,6 +27,6 @@ namespace dreamtea
 
 		void handleEvent(EventPacket& packet);
 
-		void handleNearbyEntitiesResponse(NearbyEntitiesResponsePacket& packet);
+		void handleEntityResponse(EntityResponsePacket& packet);
 	};
 }

@@ -27,13 +27,6 @@ namespace dreamtea
 		network_interface->send_packet(pk);
 	}
 
-	void Player::set_velocity(Vector3 motion)
-	{
-		VelocityPacket pk;
-		pk.motion = motion;
-		network_interface->send_packet(pk);
-	}
-
 	void Player::attack(Entity& entity, int damage)
 	{
 		EntityInteractionPacket pk;

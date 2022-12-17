@@ -1,6 +1,7 @@
 #pragma once
 
 #include "NetworkInterface.h"
+#include "Entity.h"
 
 namespace dreamtea
 {
@@ -9,7 +10,7 @@ namespace dreamtea
 		NetworkInterface* network_interface = NULL;
 
 		unsigned long long last_request_id = 0;
-		std::unordered_map<unsigned long long, std::function<void(Entity)>> nearby_entities_callbacks;
+		std::unordered_map<unsigned long long, std::function<void(Entity)>> entity_callbacks;
 	public:
 		World(NetworkInterface* network)
 		{
@@ -22,8 +23,10 @@ namespace dreamtea
 
 		void add_particle(double x, double y, double z, Particle particle, std::optional<ParticleOptions> options);
 
+		void spawn_entity(double x, double y, double z, EntityType type);
+
 		void get_nearby_entities(double x, double y, double z, double radius, std::function<void(Entity)> callback);
 
-		void handle_nearby_entity(unsigned long long request_id, Entity entity);
+		void handle_entity_response(unsigned long long request_id, Entity entity);
 	};
 }

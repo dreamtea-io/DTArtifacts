@@ -36,8 +36,8 @@ namespace dreamtea
 		case Protocol::EVENT_PACKET:
 			handleEvent(*dynamic_cast<EventPacket*>(server_pk));
 			break;
-		case Protocol::NEARBY_ENTITIES_RESPONSE:
-			handleNearbyEntitiesResponse(*dynamic_cast<NearbyEntitiesResponsePacket*>(server_pk));
+		case Protocol::ENTITY_RESPONSE:
+			handleEntityResponse(*dynamic_cast<EntityResponsePacket*>(server_pk));
 			break;
 		}
 	}
@@ -54,11 +54,11 @@ namespace dreamtea
 		}
 	}
 
-	void PacketHandler::handleNearbyEntitiesResponse(NearbyEntitiesResponsePacket& packet)
+	void PacketHandler::handleEntityResponse(EntityResponsePacket& packet)
 	{
 		for (auto& entity : packet.entities)
 		{
-			player->world->handle_nearby_entity(packet.request_id, entity);
+			player->world->handle_entity_response(packet.request_id, Entity(network_interface, entity));
 		}
 	}
 }

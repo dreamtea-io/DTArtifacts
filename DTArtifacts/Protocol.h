@@ -15,8 +15,9 @@ namespace dreamtea
 		static const unsigned short VELOCITY = 5;
 		static const unsigned short ADD_PARTICLE = 6;
 		static const unsigned short NEARBY_ENTITIES = 7;
-		static const unsigned short NEARBY_ENTITIES_RESPONSE = 8;
+		static const unsigned short ENTITY_RESPONSE = 8;
 		static const unsigned short ENTITY_INTERACTION = 9;
+		static const unsigned short SPAWN_ENTITY = 10;
 	};
 
 	class Packet
@@ -97,6 +98,7 @@ namespace dreamtea
 	public:
 		unsigned short get_id() { return Protocol::VELOCITY; }
 
+		std::optional<unsigned long long> entity_id;
 		Vector3 motion;
 
 		void encode();
@@ -144,6 +146,18 @@ namespace dreamtea
 		void encode();
 	};
 
+	class SpawnEntityPacket : public ClientPacket
+	{
+	public:
+		unsigned short get_id() { return Protocol::SPAWN_ENTITY; }
+
+		unsigned long long request_id;
+		Vector3 position;
+		EntityType type;
+
+		void encode();
+	};
+
 	/* SERVER PACKETS */
 
 	class EventPacket : public ServerPacket
@@ -153,8 +167,7 @@ namespace dreamtea
 
 		enum EventType
 		{
-			RIGHT_CLICK = 0x00,
-			TIMER = 0x01
+			RIGHT_CLICK = 0x00
 		};
 
 		EventType eventType;
@@ -163,13 +176,13 @@ namespace dreamtea
 		void decode();
 	};
 
-	class NearbyEntitiesResponsePacket : public ServerPacket
+	class EntityResponsePacket : public ServerPacket
 	{
 	public:
-		unsigned short get_id() { return Protocol::NEARBY_ENTITIES_RESPONSE; }
+		unsigned short get_id() { return Protocol::ENTITY_RESPONSE; }
 
 		unsigned long long request_id;
-		std::vector<Entity> entities;
+		std::vector<EntityModel> entities;
 
 		void decode();
 	};

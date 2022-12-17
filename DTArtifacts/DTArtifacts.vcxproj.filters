@@ -72,6 +72,9 @@
     <ClInclude Include="Scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DTArtifacts.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="Scheduler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

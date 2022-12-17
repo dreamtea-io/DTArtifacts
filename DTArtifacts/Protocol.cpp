@@ -23,8 +23,8 @@ namespace dreamtea
 			return new AddParticlePacket();
 		case Protocol::NEARBY_ENTITIES:
 			return new NearbyEntitiesPacket();
-		case Protocol::NEARBY_ENTITIES_RESPONSE:
-			return new NearbyEntitiesResponsePacket();
+		case Protocol::ENTITY_RESPONSE:
+			return new EntityResponsePacket();
 		case Protocol::ENTITY_INTERACTION:
 			return new EntityInteractionPacket();
 		}
@@ -61,6 +61,10 @@ namespace dreamtea
 
 	void VelocityPacket::encode()
 	{
+		if (this->entity_id.has_value())
+		{
+			payload["entity_id"] = this->entity_id.value();
+		}
 		payload["motion"]["x"] = this->motion.x;
 		payload["motion"]["y"] = this->motion.y;
 		payload["motion"]["z"] = this->motion.z;
@@ -104,6 +108,15 @@ namespace dreamtea
 		payload["data"] = this->data;
 	}
 
+	void SpawnEntityPacket::encode()
+	{
+		payload["request_id"] = this->request_id;
+		payload["position"]["x"] = this->position.x;
+		payload["position"]["y"] = this->position.y;
+		payload["position"]["z"] = this->position.z;
+		payload["type"] = this->type;
+	}
+
 	/* SERVER PACKETS */
 
 	void EventPacket::decode()
@@ -119,15 +132,12 @@ namespace dreamtea
 		case 0:
 			this->eventType = EventType::RIGHT_CLICK;
 			break;
-		case 1:
-			this->eventType = EventType::TIMER;
-			break;
 		default:
 			throw std::invalid_argument("TODO");
 		}
 	}
 
-	void NearbyEntitiesResponsePacket::decode()
+	void EntityResponsePacket::decode()
 	{
 		this->request_id = payload["request_id"].get<unsigned long long>();
 		
@@ -135,7 +145,7 @@ namespace dreamtea
 		{
 			auto& position = entry["position"];
 
-			this->entities.push_back(Entity(
+			this->entities.push_back(EntityModel(
 				entry["id"].get<unsigned long long>(),
 				entry["type"].get<EntityType>(),
 				Vector3(
