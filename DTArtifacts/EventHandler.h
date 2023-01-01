@@ -8,6 +8,6 @@ namespace dreamtea
 	class EventHandler
 	{
 	public:
-		virtual void on_right_click(Player* player);
+		virtual void on_right_click(std::shared_ptr<Player> player);
 	};
 }

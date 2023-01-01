@@ -11,7 +11,9 @@ namespace dreamtea
 	class NetworkInterface
 	{
 	private:
-		Connection* connection = NULL;
+		Connection* connection = new Connection();
+
+		RegisterArtifactPacket* registerArtifactPacket = NULL;
 
 		// TCP can divide packets into several buffers
 		// to connect them we will store incomplete data in this variable
@@ -22,6 +24,8 @@ namespace dreamtea
 
 		bool read(char(&buffer)[BUFFER_LENGTH]);
 	public:
+		bool stopped = false;
+
 		void connect(const char* ip, const char* port);
 
 		bool is_connected();

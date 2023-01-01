@@ -8,7 +8,7 @@ Vector3 direction;
 
 class Events : public EventHandler
 {
-    void on_right_click(Player* player)
+    void on_right_click(std::shared_ptr<Player> player)
     {
         player->fix_position();
 
@@ -61,14 +61,22 @@ class Events : public EventHandler
             if (counter == 5) return false;
 
             return true;
-        }, std::chrono::milliseconds(500));
+        }, std::chrono::milliseconds(1000));
     }
 };
 
 int main()
 {
-    connect("localhost", DTA_PORT);
-    register_artifact(1, new Events());
+    // GET ID AND SECRET FROM CONFIG
+    auto config = Config::load();
+    unsigned int id = config.get<unsigned int>("id");
+    std::string secret = config.get<std::string>("secret");
 
+    // CONNECT TO THE SERVER
+    connect("localhost", DTA_PORT);
+
+    register_artifact(id, secret, new Events());
+
+    // START ARTIFACT LOOP (BLOCKING)
     loop();
 }

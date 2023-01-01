@@ -49,8 +49,8 @@ namespace dreamtea
 	public:
 		unsigned short get_id() { return Protocol::REGISTER_ARTIFACT; }
 
-		unsigned short artifactId;
-		std::string username;
+		unsigned int artifact_id;
+		std::string secret;
 
 		void encode();
 	};
@@ -136,12 +136,13 @@ namespace dreamtea
 		enum InteractionType
 		{
 			DAMAGE = 0,
-			BURN = 1
+			BURN = 1,
+			KNOCKBACK = 2
 		};
 
 		unsigned long long entity_id;
 		InteractionType type;
-		int data;
+		double data;
 
 		void encode();
 	};
@@ -154,6 +155,8 @@ namespace dreamtea
 		unsigned long long request_id;
 		Vector3 position;
 		EntityType type;
+
+		std::optional<Vector3> motion;
 
 		void encode();
 	};

@@ -3,12 +3,6 @@
 
 namespace dreamtea
 {
-	Connection::Connection(const char* ip, const char* port) : client{INVALID_SOCKET}
-	{
-		this->ip = ip;
-		this->port = port;
-	}
-
 	void Connection::try_connect()
 	{
 		WSADATA wsa_data;
@@ -29,7 +23,7 @@ namespace dreamtea
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 
-		i_result = getaddrinfo(this->ip, this->port, &hints, &result);
+		i_result = getaddrinfo(this->ip.c_str(), this->port.c_str(), &hints, &result);
 
 		for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
 		{

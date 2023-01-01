@@ -3,7 +3,7 @@
 
 namespace dreamtea
 {
-	void EventHandler::on_right_click(Player* player)
+	void EventHandler::on_right_click(std::shared_ptr<Player> player)
 	{
 		// EMPTY
 	}

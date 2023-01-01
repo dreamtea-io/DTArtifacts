@@ -36,8 +36,8 @@ namespace dreamtea
 
 	void RegisterArtifactPacket::encode()
 	{
-		payload["artifact_id"] = this->artifactId;
-		payload["username"] = this->username;
+		payload["artifact_id"] = this->artifact_id;
+		payload["secret"] = this->secret;
 	}
 
 	void MessagePacket::encode()
@@ -115,6 +115,12 @@ namespace dreamtea
 		payload["position"]["y"] = this->position.y;
 		payload["position"]["z"] = this->position.z;
 		payload["type"] = this->type;
+
+		if (this->motion.has_value()) {
+			payload["motion"]["x"] = this->motion.value().x;
+			payload["motion"]["y"] = this->motion.value().y;
+			payload["motion"]["z"] = this->motion.value().z;
+		}
 	}
 
 	/* SERVER PACKETS */

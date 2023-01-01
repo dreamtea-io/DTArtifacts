@@ -9,29 +9,28 @@ namespace dreamtea
 
 	struct Config
 	{
-		std::string username;
+		nlohmann::json raw_data;
 
 		Config() {}
 
-		Config(std::string username)
-		{
-			this->username = username;
-		}
-
-		static void from_json(const nlohmann::json& json, Config& config)
-		{
-			json.at("username").get_to(config.username);
-		}
-
 		static Config load()
+		{
+			return load([](nlohmann::json& json)
+			{
+				json["id"] = -1;
+				json["secret"] = "PASTE SECRET HERE";
+			});
+		}
+
+		static Config load(std::function<void(nlohmann::json& json)> defaults)
 		{
 			std::ifstream stream(CONFIG_NAME);
 			nlohmann::json json;
-			Config config("null");
+			Config config;
 
 			if (!stream.is_open())
 			{
-				json["username"] = config.username;
+				defaults(json);
 
 				std::ofstream write(CONFIG_NAME);
 				write << json.dump(4).c_str();
@@ -41,9 +40,15 @@ namespace dreamtea
 			}
 
 			stream >> json;
-			from_json(json, config);
+			config.raw_data = json;
 
 			return config;
+		}
+
+		template<typename T>
+		T get(std::string key)
+		{
+			return this->raw_data[key].get<T>();
 		}
 	};
 }

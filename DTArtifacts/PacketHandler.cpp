@@ -31,18 +31,20 @@ namespace dreamtea
 
 	void PacketHandler::invoke(ServerPacket* server_pk)
 	{
+		std::shared_ptr<Player> player(new Player(*network_interface));
+
 		switch (server_pk->get_id())
 		{
 		case Protocol::EVENT_PACKET:
-			handleEvent(*dynamic_cast<EventPacket*>(server_pk));
+			handleEvent(player, *dynamic_cast<EventPacket*>(server_pk));
 			break;
 		case Protocol::ENTITY_RESPONSE:
-			handleEntityResponse(*dynamic_cast<EntityResponsePacket*>(server_pk));
+			handleEntityResponse(player, *dynamic_cast<EntityResponsePacket*>(server_pk));
 			break;
 		}
 	}
 
-	void PacketHandler::handleEvent(EventPacket& packet)
+	void PacketHandler::handleEvent(std::shared_ptr<Player>& player, EventPacket& packet)
 	{
 		player->set_direction(packet.direction);
 
@@ -54,7 +56,7 @@ namespace dreamtea
 		}
 	}
 
-	void PacketHandler::handleEntityResponse(EntityResponsePacket& packet)
+	void PacketHandler::handleEntityResponse(std::shared_ptr<Player>& player, EntityResponsePacket& packet)
 	{
 		for (auto& entity : packet.entities)
 		{

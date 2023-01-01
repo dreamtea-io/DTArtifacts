@@ -50,7 +50,8 @@ namespace dreamtea
 
 	void NetworkInterface::connect(const char* ip, const char* port)
 	{
-		connection = new Connection(ip, port);
+		connection->ip = ip;
+		connection->port = port;
 		connection->try_connect();
 	}
 
@@ -98,7 +99,7 @@ namespace dreamtea
 	{
 		char buffer[BUFFER_LENGTH];
 
-		while (true)
+		while (!stopped)
 		{
 			if (connection->is_connected() && !read(buffer))
 			{

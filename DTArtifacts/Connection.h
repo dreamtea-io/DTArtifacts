@@ -13,11 +13,9 @@ namespace dreamtea
 	private:
 		SOCKET client = INVALID_SOCKET;
 		bool isConnected = false;
-
-		const char* ip;
-		const char* port;
 	public:
-		Connection(const char* ip, const char* port);
+		std::string ip;
+		std::string port;
 
 		void try_connect();
 
